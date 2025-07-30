@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Meine Spiele</h2>
+  {% if posts %}
+
+
+    {% for post in posts %}
+    <section class="features">
+      <div class="feature-card">
+      <article>
+        <h3><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h3>
+        <p>{{ post.text|truncatewords:30 }}</p>
+      </article>
+      <hr>
+    </div>
+    </section>
+    {% endfor %}
+  {% else %}
+    <p>Du hast noch keine Beiträge geliked.</p>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <article class="post-detail">
+		<h2>{{ events.title }}</h2>
+		{% if events.image %}
+			<img src="{{ events.image.url }}" alt="{{ events.title }}" class="event-image" style="max-width: 100%; height: auto;">
+		{% endif %}
+		<p><strong>Author:</strong> {{ events.author }}</p>
+		<p><strong>Location:</strong> {{ events.location }}</p>
+		<p><strong>Start Date:</strong> {{ events.start_date }}</p>
+		<p><strong>End Date:</strong> {{ events.end_date }}</p>
+		<p><strong>Published:</strong> {{ events.published_date }}</p>
+		<p>{{ events.text|linebreaksbr }}</p>
+    </article>
+
+	<div class="vote-box">
+		<form method="post" action="{% url 'events_vote_up' events.pk %}">
+			{% csrf_token %}
+			<button type="submit">&#128077; {{ upvotes }}</button>   
+		</form>
+		<form method="post" action="{% url 'events_vote_down' events.pk %}">
+			{% csrf_token %}
+			<button type="submit">&#128078; {{ downvotes }}</button>
+		</form>
+	</div>
+
+	
+	<a href="{% url 'events_edit' pk=events.pk %}">
+    	<button type="button">Edit this Event</button>
+	</a>
+
+	<a href="{% url 'events' %}">
+    	<button type="button">Back to Events List</button>
+	</a>
+
+<a href="{% url 'add_comment_to_events' pk=events.pk %}">Add comment</a>
+
+{% for comment in events.comments.all %}
+    <div class="comment">
+        <div class="date">{{ comment.created_date }}</div>
+        <strong>{{ comment.author }}</strong>
+        <p>{{ comment.text|linebreaks }}</p>
+    </div>
+{% empty %}
+    <p>No comments here yet :(</p>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <article class="post-detail">
+        {% if post.published_date %}
+            <time class="date">
+                {{ post.published_date }}
+            </time>
+        {% endif %}
+        <h2>{{ post.title }}</h2>
+
+{% if post.image %}
+	<img src="{{ post.image.url }}" alt="Bild zu {{ post.title }}" class="post-image" style="max-width: 100%; height: auto;">
+{% endif %}
+
+
+        <p>{{ post.text|linebreaksbr }}</p>
+    </article>
+
+ <div class="vote-box" style="display: flex; gap: 10px;">
+  <form method="post" action="{% url 'vote_up' post.pk %}">
+    {% csrf_token %}
+    <button type="submit">&#128077; {{ upvotes }}</button>   
+  </form>
+
+  <form method="post" action="{% url 'vote_down' post.pk %}">
+    {% csrf_token %}
+    <button type="submit">&#128078; {{ downvotes }}</button>   
+  </form>
+</div>
+
+
+	<a href="{% url 'post_edit' pk=post.pk %}">
+    	<button type="button">Edit this Post</button>
+	</a>
+
+	<a href="{% url 'post_list' %}">
+    	<button type="button">Back to Post List</button>
+	</a>
+
+<hr>
+
+<a href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+
+{% for comment in post.comments.all %}
+<section class="features">
+    <div class="feature-card">   
+<div class="comment">
+        <div class="date">{{ comment.created_date }}</div>
+        <strong>{{ comment.author }}</strong>
+        <p>{{ comment.text|linebreaks }}</p>
+    </div>
+    </div>
+    </section>
+    
+    {% empty %}
+    <p>No comments here yet :(</p>
+{% endfor %}
+
+{% endblock %}

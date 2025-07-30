@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+    <main>
+        <section class="game-categories">
+            <h1>Entdecke Brettspiele</h1>
+            <div class="category-grid">
+                <div class="category-card">
+                    <h2>Strategiespiele</h2>
+                    <p>45 Spiele</p>
+                </div>
+                <div class="category-card">
+                    <h2>Familien Spiele</h2>
+                    <p>67 Spiele</p>
+                </div>
+                <div class="category-card">
+                    <h2>Karten Spiele</h2>
+                    <p>34 Spiele</p>
+                </div>
+                <div class="category-card">
+                    <h2>Party Spiele</h2>
+                    <p>28 Spiele</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-games">
+            <h2>Beliebte Spiele</h2>
+            <div class="game-grid">
+                <div class="game-card">
+                    <div class="game-image" style="background-image: url('https://source.unsplash.com/400x300/?catan');"></div>
+                    <h3>Catan</h3>
+                    <p>Spieler: 3-4 • Dauer: 60-120 Minuten</p>
+                    <div class="rating">★★★★☆</div>
+                </div>
+                <div class="game-card">
+                    <div class="game-image" style="background-image: url('https://source.unsplash.com/400x300/?monopoly');"></div>
+                    <h3>Monopoly</h3>
+                    <p>Spieler: 2-6 • Dauer: 60-180 Minuten</p>
+                    <div class="rating">★★★☆☆</div>
+                </div>
+                <div class="game-card">
+                    <div class="game-image" style="background-image: url('https://source.unsplash.com/400x300/?settlers');"></div>
+                    <h3>Die Siedler von Catan</h3>
+                    <p>Spieler: 3-4 • Dauer: 90-120 Minuten</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
+

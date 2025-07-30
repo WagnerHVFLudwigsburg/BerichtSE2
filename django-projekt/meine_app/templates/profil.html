@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Dein Profil</h2>
+  <img src="{{ profile.image.url }}" alt="Profilbild" style="width:150px; border-radius: 50%;"><br><br>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Bild speichern</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Events</h2>
+
+ <div style="margin-top: 30px;">
+        <a href="{% url 'events_new' %}">
+            <button type="button">Neuen Beitrag erstellen</button>
+        </a>
+    </div>
+
+	{% for item in events_with_votes %}
+<section class="features">
+      <div class="feature-card">
+    <article class="post">
+		<h2><a href="{% url 'events_detail' pk=item.event.pk %}">{{ item.event.title }}</a></h2>
+		{% if item.event.image %}
+		<div class="post-image">
+			<img src="{{ item.event.image.url }}" alt="{{ item.event.title }}" class="event-image">
+		</div>
+		{% endif %}
+		<p><strong>Author:</strong> {{ item.event.author }}</p>
+		<p><strong>Location:</strong> {{ item.event.location }}</p>
+		<p><strong>Start Date:</strong> {{ item.event.start_date }}</p>
+		<p><strong>End Date:</strong> {{ item.event.end_date }}</p>
+		<p><strong>Published:</strong> {{ item.event.published_date }}</p>
+		<p>{{ event.text|linebreaksbr }}</p>
+    </article>
+
+	{% if user.is_authenticated %}
+	<div class="vote-box">
+	<form method="post" action="{% url 'events_vote_up' item.event.pk %}" style="display: inline;">
+		{% csrf_token %}
+		<button type="submit">&#128077; {{ item.upvotes }}</button>
+	</form>
+	<form method="post" action="{% url 'events_vote_down' item.event.pk %}" style="display: inline;">
+		{% csrf_token %}
+		<button type="submit">&#128078; {{ item.downvotes }}</button>
+	</form>
+
+	{% else %}
+		<button type="button" disabled style="opacity: 0.9; cursor: not-allowed;">&#128077; {{ item.upvotes }}</button>
+		<button type="button" disabled style="opacity: 0.9; cursor: not-allowed;">&#128078; {{ item.downvotes }}</button>
+		<p style="margin-top: 5px;"><a href="{% url 'login' %}">Einloggen</a>, um abzustimmen</p>
+	{% endif %}
+
+</div>
+</section>
+{% endfor %}
+{% endblock %}

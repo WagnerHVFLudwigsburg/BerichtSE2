@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Beiträge</h2>
+
+ <div style="margin-top: 30px;">
+        <a href="{% url 'post_new' %}">
+            <button type="button">Neuen Beitrag erstellen</button>
+        </a>
+    </div>
+    
+    {% for item in posts_with_votes %}
+<section class="features">
+      <div class="feature-card">
+  {% with post=item.post upvotes=item.upvotes downvotes=item.downvotes %}
+
+        <article class="post">
+            <h2>
+                <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+            </h2>
+            <p><strong>Autor:</strong> {{ post.author }}</p>
+            <time class="date">{{ post.published_date }}</time>
+
+      {% if post.image and post.image.name %}
+           <p><strong>Bild-URL:</strong> {{ post.image.url }}</p>
+          <img src="{{ post.image.url }}" alt="Bild zu {{ post.title }}" style="max-width: 100%; height: auto;">
+      {% else %}
+          <p><em>Kein Bild vorhanden</em></p>
+      {% endif %}
+            <p>{{ post.text|linebreaksbr }}</p>
+
+{% if user.is_authenticated %}
+  <div class="vote-box">
+    <form method="post" action="{% url 'vote_up' post.pk %}" style="display: inline;">
+      {% csrf_token %}
+      <button type="submit">&#128077; {{ upvotes }}</button>
+    </form>
+    <form method="post" action="{% url 'vote_down' post.pk %}" style="display: inline;">
+      {% csrf_token %}
+      <button type="submit">&#128078; {{ downvotes }}</button>
+    </form>
+  </div>
+{% else %}
+  <div class="vote-box">
+    <button type="button" disabled style="opacity: 0.9; cursor: not-allowed;">&#128077; {{ upvotes }}</button>
+    <button type="button" disabled style="opacity: 0.9; cursor: not-allowed;">&#128078; {{ downvotes }}</button>
+    <p style="margin-top: 5px;"><a href="{% url 'login' %}">Einloggen</a>, um abzustimmen</p>
+  </div>
+{% endif %}
+
+<a href="{% url 'post_detail' pk=post.pk %}">Kommentare: {{ post.comments.count }}</a>
+
+        </article>
+        <hr>
+      {% endwith %}
+    </div>
+</section>
+
+{% endfor %}
+{% endblock %}

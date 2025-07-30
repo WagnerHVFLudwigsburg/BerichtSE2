@@ -1,0 +1,72 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameConnect - Deine Boardspiel-Community</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+    <div class="page-wrapper">
+    <header>
+        <nav>
+            <div class="container">
+                <div class="toggle-menu">
+                    <div class="line line1"></div>
+                    <div class="line line2"></div>
+                    <div class="line line3"></div>
+                </div>
+                <div class="logo"><a href="{% url 'index' %}">GameConnect</a></div>
+            <nav class="nav-bar">
+                <ul class="nav-list">
+                    <li class="nav-list-item"><a href="{% url 'index' %}" class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}">Home</a></li>
+                    <li class="nav-list-item"><a href="{% url 'post_list' %}" class="nav-link {% if request.resolver_match.url_name == 'post_list' %}active{% endif %}">Spiele</a></li>
+                    <li class="nav-list-item"><a href="{% url 'events' %}" class="nav-link {% if request.resolver_match.url_name == 'events' %}active{% endif %}">Events</a></li>
+                    <li class="nav-list-item"><a href="{% url 'about' %}" class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}">Über uns</a></li>
+                </ul>
+            </nav>
+            {% if user.is_authenticated %}
+            <div class="user-profile">         
+		{% if profilbild %}
+ 		   <img src="{{ profilbild }}" alt="Profilbild" style="width:40px; height:40px; border-radius:50%;">
+	   {% else %}
+               <div class="profile-image">U</div>
+           {% endif %}
+
+                <div class="profile-dropdown">
+                    <a href="{% url 'meine_likes' %}">Meine Spiele</a>
+                    <a href="{% url 'meine_events' %}">Meine Events</a>
+                    <a href="{% url 'profil' %}">Profil</a>
+                    <a>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Log Out</button>
+                        </form>
+                    </a>
+                </div>
+            </div>
+           {% else %}
+    <div class="user-actions">
+        <a href="{% url 'login' %}" class="nav-link login-button">Log In</a>
+        <a href="{% url 'signup' %}" class="nav-link login-button">Sign Up</a>
+    </div>
+{% endif %}
+        </nav>    
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 GameConnect. Alle Rechte vorbehalten.</p>
+        </div>
+    </footer>
+    </div>
+</body>
+</html>

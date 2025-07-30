@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Meine Events</h2>
+
+  {% if events %}
+    {% for event in events %}
+      <section class="features">
+        <div class="feature-card">
+          <article>
+            <h3><a href="{% url 'events_detail' pk=event.pk %}">{{ event.title }}</a></h3>
+            <p>{{ event.text|truncatewords:30 }}</p>
+            <p><strong>Ort:</strong> {{ event.location }}</p>
+            <p><strong>Start:</strong> {{ event.start_date }}</p>
+          </article>
+        </div>
+      </section>
+    {% endfor %}
+  {% else %}
+    <p>Du hast noch keine Events geliked.</p>
+  {% endif %}
+{% endblock %}

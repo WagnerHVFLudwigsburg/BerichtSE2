@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    <main>
+        <section class="hero">
+            <h1>Willkommen bei GameConnect</h1>
+            <p>Deine Community für Brettspiele und Tischspiele</p>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <a href="{% url 'post_list' %}">
+                    <h2>Spiele</h2>
+                    <p>Entdecke neue Brettspiele und bewerte deine Lieblingsspiele</p>
+                </a>
+            </div>
+            <div class="feature-card">
+                <a href="{% url 'events' %}">
+                    <h2>Events</h2>
+                    <p>Finde lokale Brettspiel-Events und Treffen</p>
+                </a>
+            </div>
+        </section>
+
+        
+    </main>
+    {% endblock content %}
